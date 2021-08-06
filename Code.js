@@ -57,10 +57,11 @@ function fetchHtml (data) {
 }
 
 function sendEmail() {
+  const folder_id = PropertiesService.getScriptProperties().getProperty('FOLDER_ID')
   const pdfHtml = fetchHtml(mjmlPdfTemplate)
   
   const getPdf = Utilities.newBlob(pdfHtml, 'text/html').getAs('application/pdf').setName(`receipt-${order.id}`)
-  const receiptsFolder = DriveApp.getFolderById('1LobgMhoevEvUjBmcU8hH6chhzuf-yPp6')
+  const receiptsFolder = DriveApp.getFolderById(folder_id)
   const pdf = receiptsFolder.createFile(getPdf).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW).getId()
 
   const mjmlEmailTemplate = `
